@@ -1,24 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Speech to Text</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+      }
+      .container {
+        background: white;
+        margin: 40px 20px;
+        padding: 30px 40px;
+        max-width: 600px;
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      }
+      h1 {
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #222;
+        text-align: center;
+      }
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+      }
+      select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+        margin-bottom: 24px;
+      }
+      select:hover, select:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+      #status-container {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 16px;
+        display: inline-flex;
+        align-items: center;
+      }
+      /* Blinking red dot for recording */
+      #recording-dot {
+        width: 14px;
+        height: 14px;
+        background: red;
+        border-radius: 50%;
+        margin-left: 10px;
+        animation: blink 1s infinite;
+        display: none;
+      }
+      @keyframes blink {
+        0%, 50%, 100% {opacity: 1;}
+        25%, 75% {opacity: 0;}
+      }
+      pre#output {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        min-height: 200px;
+        max-height: 400px;
+        overflow-y: auto;
+        font-size: 16px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        color: #222;
+        border: 1px solid #ddd;
+      }
+      p.hint {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        margin-top: 30px;
+      }
+      /* Responsive */
+      @media(max-width: 480px) {
+        .container {
+          padding: 20px;
+          margin: 20px;
+        }
+      }
+      button#downloadBtn {
+          background-color: #28a745;
+          color: white;
+          border: none;
+          padding: 12px 28px;
+          font-weight: 600;
+          font-size: 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          margin-top: 16px;
+          transition: background-color 0.3s ease;
+          display: block;
+          width: 100%;
+        }
+        button#downloadBtn:hover {
+          background-color: #1e7e34;
+        }
+
+    </style>
 </head>
 <body>
+  <div class="container">
     <h1>Speech to Text</h1>
+
     <label for="language">Choose Language:</label>
     <select id="language">
-        <option value="en">English</option>
-        <option value="fr">French</option>
-        <option value="ru">Russian</option>
+      <option value="en" selected>English</option>
+      <option value="fr">French</option>
+      <option value="ru">Russian</option>
     </select>
-    <br><br>
-    <button onclick="startRecording()">Start Recording</button>
-    <button onclick="stopRecording()">Stop Recording</button>
-    <h2>Transcription:</h2>
-    <p><strong>Status:</strong> <span id="status">Idle</span></p>
+
+    <div id="status-container">
+      Status: <span id="status">Idle</span>
+      <div id="recording-dot"></div>
+    </div>
+
     <h2>Transcript:</h2>
-    <pre id="output" style="white-space: pre-wrap;"></pre>
+    <pre id="output"></pre>
+
+    <p class="hint">Press <strong>spacebar</strong> to start/stop recording</p>
+      <button id="downloadBtn" onclick="downloadCSV()">Download Transcript as CSV</button>
+  </div>
 </body>
 </html>
