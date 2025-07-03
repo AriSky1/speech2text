@@ -1,4 +1,5 @@
 # Speech2Text Multilingual Transcription
+![Speech2Text Demo](speech2text_image.png)
 
 This project provides a **speech-to-text** application supporting **three languages**: English, French, and Russian. Using the powerful open-source [Vosk](https://alphacephei.com/vosk/) speech recognition toolkit, it converts spoken words into text in real time.
 
