@@ -5,13 +5,26 @@ import json
 import os
 import threading
 from datetime import datetime
+import vosk
+import sys
+import os
+print(vosk.__file__)
 
 app = Flask(__name__)
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS  # PyInstaller temp folder at runtime
+    except Exception:
+        base_path = os.path.abspath(".")  # fallback to current dir when running normally
+
+    return os.path.join(base_path, relative_path)
+
 models = {
-    'en': Model("models/vosk-model-small-en-us-0.15"),
-    'fr': Model("models/vosk-model-small-fr-0.22"),
-    'ru': Model("models/vosk-model-small-ru-0.22")
+    'en': Model(resource_path("models/vosk-model-small-en-us-0.15")),
+    'fr': Model(resource_path("models/vosk-model-small-fr-0.22")),
+    'ru': Model(resource_path("models/vosk-model-small-ru-0.22"))
 }
 
 recording = False
